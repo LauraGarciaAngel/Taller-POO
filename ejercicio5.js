@@ -1,9 +1,9 @@
 const prompt = require('prompt-sync')();
-function Vehiculo(marca,color,modelo,año,disponible) {
-    this.marca = marca;
-    this.color = color;
-    this.modelo = modelo;
-    this.año = año;
+function Vehiculo(datos) {
+    this.marca = datos.marca;
+    this.color = datos.color;
+    this.modelo = datos.modelo;
+    this.año = datos.año;
     this.disponible = true;
 
     this.comprar = function () {
@@ -14,20 +14,18 @@ function Vehiculo(marca,color,modelo,año,disponible) {
             if (this.disponible == false) {
                 mensaje = `El vehiculo ya no se encuentra disponible`
             }
-            return `Compra realizada con éxito.\nDetalles del Vehículo: Marca: ${this.marca} \nModelo: ${this.modelo} \nAño:${this.año}  \nColor: ${this.color} \nDisponibilidad: ${mensaje}\n`;
+            return `\nCompra realizada con éxito.\nDetalles del Vehículo: Marca: ${this.marca} \nModelo: ${this.modelo} \nAño:${this.año}  \nColor: ${this.color} \nDisponibilidad: ${mensaje}\n`;
         } else {
             return `Ocurrio un error en la compra`
         }
     }
     this.manejar = function () {
-        return `Bienvenido al Drive test!\nDetalles del Vehículo: \nMarca: ${this.marca} \nModelo: ${this.modelo} \nAño:${this.año}  \nColor: ${this.color} \nEsta manejando un ${this.marca} ${this.modelo}\n`
+        return `\nBienvenido al Drive test!\nDetalles del Vehículo: \nMarca: ${this.marca} \nModelo: ${this.modelo} \nAño:${this.año}  \nColor: ${this.color} \nEsta manejando un ${this.marca} ${this.modelo}\n`
     }
     this.mantenimiento = function () {
-        return `Bienvenido al centro de mantenimiento! Detalles del vehiculo Marca: ${this.marca} \nModelo: ${this.modelo} \nAño:${this.año}  \nColor: ${this.color} \nSu vehiculo entro al centro de mantenimiento`
+        return `\nBienvenido al centro de mantenimiento! Detalles del vehiculo Marca: ${this.marca} \nModelo: ${this.modelo} \nAño:${this.año}  \nColor: ${this.color} \nSu vehiculo entro al centro de mantenimiento`
     }
 }
-
-
 
 function pedirVehiculo() {
     const vehiculos = ["marca","modelo","color","año"];
@@ -37,14 +35,18 @@ function pedirVehiculo() {
     }
     return new Vehiculo(datos)
 };
-const vehiculo = pedirVehiculo()
+const vehiculosRegistrados = [];
+let respuesta = "s";
 
-console.log(vehiculo.comprar());
-/* console.log(vehiculo1.manejar());
-console.log(vehiculo1.mantenimiento());
-console.log(vehiculo2.comprar());
-console.log(vehiculo2.manejar());
-console.log(vehiculo2.mantenimiento());
-console.log(vehiculo3.comprar());
-console.log(vehiculo3.manejar());
-console.log(vehiculo3.mantenimiento()); */
+while (respuesta.toLowerCase() === "s") {
+    const vehiculo = pedirVehiculo();
+    vehiculosRegistrados.push(vehiculo);
+
+    respuesta = prompt("¿Quieres ingresar otro vehículo? (s/n) ") || "n";
+}
+
+for (const vehiculo of vehiculosRegistrados) {
+    console.log(vehiculo.comprar());
+    console.log(vehiculo.manejar());
+    console.log(vehiculo.mantenimiento());
+}
